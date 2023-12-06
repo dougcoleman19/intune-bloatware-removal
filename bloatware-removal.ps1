@@ -15,7 +15,7 @@
 
 .INPUTS
 .OUTPUTS
-C:\ProgramData\Debloat\Debloat.log
+C:\Tech\Debloat\Debloat.log
 .NOTES
   Version:        4.1.0
   Author:         Andrew Taylor
@@ -125,7 +125,7 @@ Get-ScriptVersion -liveuri "https://raw.githubusercontent.com/andrew-s-taylor/pu
 
 
 #Create Folder
-$DebloatFolder = "C:\ProgramData\Debloat"
+$DebloatFolder = "C:\Tech\Debloat"
 If (Test-Path $DebloatFolder) {
     Write-Output "$DebloatFolder exists. Skipping."
 }
@@ -136,7 +136,7 @@ Else {
     Write-Output "The folder $DebloatFolder was successfully created."
 }
 
-Start-Transcript -Path "C:\ProgramData\Debloat\Debloat.log"
+Start-Transcript -Path "C:\Tech\Debloat\Debloat.log"
 
 $locale = Get-WinSystemLocale | Select-Object -expandproperty Name
 
@@ -771,41 +771,41 @@ Get-AppxPackage - allusers Microsoft.549981C3F5F10 | Remove AppxPackage
    write-host "Removed Parental Controls"
 
    #Remove Teams Chat
-$MSTeams = "MicrosoftTeams"
-
-$WinPackage = Get-AppxPackage -allusers | Where-Object {$_.Name -eq $MSTeams}
-$ProvisionedPackage = Get-AppxProvisionedPackage -Online | Where-Object { $_.DisplayName -eq $WinPackage }
-If ($null -ne $WinPackage) 
-{
-    Remove-AppxPackage  -Package $WinPackage.PackageFullName -AllUsers
-} 
-
-If ($null -ne $ProvisionedPackage) 
-{
-    Remove-AppxProvisionedPackage -online -Packagename $ProvisionedPackage.Packagename -AllUsers
-}
+# $MSTeams = "MicrosoftTeams"
+# 
+# $WinPackage = Get-AppxPackage -allusers | Where-Object {$_.Name -eq $MSTeams}
+# $ProvisionedPackage = Get-AppxProvisionedPackage -Online | Where-Object { $_.DisplayName -eq $WinPackage }
+# If ($null -ne $WinPackage) 
+# {
+ #    Remove-AppxPackage  -Package $WinPackage.PackageFullName -AllUsers
+# } 
+# 
+# If ($null -ne $ProvisionedPackage) 
+# {
+#     Remove-AppxProvisionedPackage -online -Packagename $ProvisionedPackage.Packagename -AllUsers
+# }
 
 ##Tweak reg permissions
-invoke-webrequest -uri "https://github.com/andrew-s-taylor/public/raw/main/De-Bloat/SetACL.exe" -outfile "C:\Windows\Temp\SetACL.exe"
-C:\Windows\Temp\SetACL.exe -on "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Communications" -ot reg -actn setowner -ownr "n:$everyone"
- C:\Windows\Temp\SetACL.exe -on "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Communications" -ot reg -actn ace -ace "n:$everyone;p:full"
+# invoke-webrequest -uri "https://github.com/andrew-s-taylor/public/raw/main/De-Bloat/SetACL.exe" -outfile "C:\Windows\Temp\SetACL.exe"
+# C:\Windows\Temp\SetACL.exe -on "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Communications" -ot reg -actn setowner -ownr "n:$everyone"
+#  C:\Windows\Temp\SetACL.exe -on "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Communications" -ot reg -actn ace -ace "n:$everyone;p:full"
 
 
 ##Stop it coming back
-$registryPath = "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Communications"
-If (!(Test-Path $registryPath)) { 
-    New-Item $registryPath
-}
-Set-ItemProperty $registryPath ConfigureChatAutoInstall -Value 0
+# $registryPath = "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Communications"
+# If (!(Test-Path $registryPath)) { 
+#     New-Item $registryPath
+# }
+# Set-ItemProperty $registryPath ConfigureChatAutoInstall -Value 0
 
 
 ##Unpin it
-$registryPath = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Chat"
-If (!(Test-Path $registryPath)) { 
-    New-Item $registryPath
-}
-Set-ItemProperty $registryPath "ChatIcon" -Value 2
-write-host "Removed Teams Chat"
+# $registryPath = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Chat"
+# If (!(Test-Path $registryPath)) { 
+#     New-Item $registryPath
+# }
+# Set-ItemProperty $registryPath "ChatIcon" -Value 2
+# write-host "Removed Teams Chat"
 ############################################################################################################
 #                                           Windows Backup App                                             #
 #                                                                                                          #
@@ -1633,16 +1633,16 @@ write-host "Downloading McAfee Removal Tool"
 $URL = 'https://github.com/andrew-s-taylor/public/raw/main/De-Bloat/mcafeeclean.zip'
 
 # Set Save Directory
-$destination = 'C:\ProgramData\Debloat\mcafee.zip'
+$destination = 'C:\Tech\Debloat\mcafee.zip'
 
 #Download the file
 Invoke-WebRequest -Uri $URL -OutFile $destination -Method Get
   
-Expand-Archive $destination -DestinationPath "C:\ProgramData\Debloat" -Force
+Expand-Archive $destination -DestinationPath "C:\Tech\Debloat" -Force
 
 write-host "Removing McAfee"
 # Automate Removal and kill services
-start-process "C:\ProgramData\Debloat\Mccleanup.exe" -ArgumentList "-p StopServices,MFSY,PEF,MXD,CSP,Sustainability,MOCP,MFP,APPSTATS,Auth,EMproxy,FWdiver,HW,MAS,MAT,MBK,MCPR,McProxy,McSvcHost,VUL,MHN,MNA,MOBK,MPFP,MPFPCU,MPS,SHRED,MPSCU,MQC,MQCCU,MSAD,MSHR,MSK,MSKCU,MWL,NMC,RedirSvc,VS,REMEDIATION,MSC,YAP,TRUEKEY,LAM,PCB,Symlink,SafeConnect,MGS,WMIRemover,RESIDUE -v -s"
+start-process "C:\Tech\Debloat\Mccleanup.exe" -ArgumentList "-p StopServices,MFSY,PEF,MXD,CSP,Sustainability,MOCP,MFP,APPSTATS,Auth,EMproxy,FWdiver,HW,MAS,MAT,MBK,MCPR,McProxy,McSvcHost,VUL,MHN,MNA,MOBK,MPFP,MPFPCU,MPS,SHRED,MPSCU,MQC,MQCCU,MSAD,MSHR,MSK,MSKCU,MWL,NMC,RedirSvc,VS,REMEDIATION,MSC,YAP,TRUEKEY,LAM,PCB,Symlink,SafeConnect,MGS,WMIRemover,RESIDUE -v -s"
 write-host "McAfee Removal Tool has been run"
 
 }
